@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sujal Kumar - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      .gradient-bg {
+        background: linear-gradient(135deg, #FFE5E5 0%, #FFF9E5 25%, #FFE8D6 50%, #E5F9E5 75%, #FFE5E5 100%);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+      }
+
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      .card-3d {
+        transform-style: preserve-3d;
+        transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .card-3d:hover {
+        transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .parallax {
+        transform: translateZ(0);
+        will-change: transform;
+      }
+
+      .skill-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 200, 200, 0.3);
+        box-shadow: 0 8px 32px rgba(255, 180, 180, 0.15);
+      }
+
+      .glow-effect {
+        box-shadow: 0 0 20px rgba(255, 180, 180, 0.3),
+                    0 0 40px rgba(255, 220, 180, 0.2),
+                    0 0 60px rgba(255, 200, 200, 0.1);
+      }
+
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #FFB6B6, #FFDAB6);
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #FFB6B6, #FFDAB6);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 180, 180, 0.3);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(255, 180, 180, 0.4);
+      }
+
+      .chat-widget {
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        z-index: 1000;
+      }
+
+      .chat-button {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #FFB6B6, #FFDAB6);
+        box-shadow: 0 4px 20px rgba(255, 180, 180, 0.4);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .chat-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 30px rgba(255, 180, 180, 0.5);
+      }
+
+      .chat-window {
+        position: absolute;
+        bottom: 80px;
+        right: 0;
+        width: 380px;
+        height: 550px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.15);
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid rgba(255, 200, 200, 0.3);
+      }
+
+      .chat-window.open {
+        display: flex;
+        animation: slideUp 0.3s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .chat-header {
+        background: linear-gradient(135deg, #FFB6B6, #FFDAB6);
+        padding: 20px;
+        color: #5A3A3A;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .chat-messages::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .chat-messages::-webkit-scrollbar-thumb {
+        background: rgba(255, 180, 180, 0.5);
+        border-radius: 3px;
+      }
+
+      .message {
+        max-width: 80%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        line-height: 1.5;
+        animation: messageSlide 0.3s ease-out;
+      }
+
+      @keyframes messageSlide {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .message.user {
+        background: linear-gradient(135deg, #FFD6D6, #FFE8D6);
+        align-self: flex-end;
+        color: #5A3A3A;
+      }
+
+      .message.bot {
+        background: rgba(255, 255, 255, 0.9);
+        align-self: flex-start;
+        color: #4A4A4A;
+        border: 1px solid rgba(255, 200, 200, 0.3);
+      }
+
+      .typing-indicator {
+        display: flex;
+        gap: 4px;
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 18px;
+        width: fit-content;
+        border: 1px solid rgba(255, 200, 200, 0.3);
+      }
+
+      .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #FFB6B6;
+        animation: typing 1.4s infinite;
+      }
+
+      .typing-indicator span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .typing-indicator span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes typing {
+        0%, 60%, 100% {
+          transform: translateY(0);
+          opacity: 0.7;
+        }
+        30% {
+          transform: translateY(-10px);
+          opacity: 1;
+        }
+      }
+
+      .chat-input-container {
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        border-top: 1px solid rgba(255, 200, 200, 0.3);
+      }
+
+      .chat-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid rgba(255, 200, 200, 0.5);
+        border-radius: 25px;
+        outline: none;
+        background: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s ease;
+      }
+
+      .chat-input:focus {
+        border-color: #FFB6B6;
+        box-shadow: 0 0 0 3px rgba(255, 180, 180, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .chat-window {
+          width: calc(100vw - 40px);
+          height: 70vh;
+          right: 20px;
+        }
+
+        .chat-widget {
+          bottom: 20px;
+          right: 20px;
+        }
+      }
+    </style>
+    <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
+  <body class="gradient-bg">
+    <nav class="fixed top-0 w-full z-50 backdrop-blur-md bg-white/30 border-b border-white/50">
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+          <a href="#" class="text-2xl font-bold text-gray-800">Sujal Kumar</a>
+          <div class="hidden md:flex space-x-8">
+            <a href="#home" class="nav-link text-gray-700 hover:text-gray-900">Home</a>
+            <a href="#about" class="nav-link text-gray-700 hover:text-gray-900">About</a>
+            <a href="#skills" class="nav-link text-gray-700 hover:text-gray-900">Skills</a>
+            <a href="#experience" class="nav-link text-gray-700 hover:text-gray-900">Experience</a>
+            <a href="#projects" class="nav-link text-gray-700 hover:text-gray-900">Projects</a>
+            <a href="#achievements" class="nav-link text-gray-700 hover:text-gray-900">Achievements</a>
+            <a href="#contact" class="nav-link text-gray-700 hover:text-gray-900">Contact</a>
+          </div>
+          <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-white/95 backdrop-blur-md hidden">
+      <div class="flex flex-col items-center justify-center h-full space-y-8">
+        <a href="#home" class="mobile-nav-link text-2xl text-gray-700 hover:text-gray-900">Home</a>
+        <a href="#about" class="mobile-nav-link text-2xl text-gray-700 hover:text-gray-900">About</a>
+        <a href="#skills" class="mobile-nav-link text-2xl text-gray-700 hover:text-gray-900">Skills</a>
+        <a href="#experience" class="mobile-nav-link text-2xl text-gray-700 hover:text-gray-900">Experience</a>
+        <a href="#projects" class="mobile-nav-link text-2xl text-gray-700 hover:text-gray-900">Projects</a>
+        <a href="#achievements" class="mobile-nav-link text-2xl text-gray-700 hover:text-gray-900">Achievements</a>
+        <a href="#contact" class="mobile-nav-link text-2xl text-gray-700 hover:text-gray-900">Contact</a>
+      </div>
+    </div>
+
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 px-6">
+      <div class="max-w-7xl mx-auto text-center">
+        <div class="floating">
+          <h1 class="text-6xl md:text-8xl font-bold text-gray-800 mb-6">
+            Sujal Kumar
+          </h1>
+          <p class="text-2xl md:text-3xl text-gray-700 mb-8" id="hero-subtitle">
+            Full Stack AI Developer & AI Enthusiast
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#projects" class="btn-primary px-8 py-4 rounded-full text-gray-800 font-semibold text-lg">
+              View My Work
+            </a>
+            <a href="#contact" class="px-8 py-4 rounded-full text-gray-800 font-semibold text-lg border-2 border-gray-700 hover:bg-white/50 transition-all">
+              Get In Touch
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="py-20 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-5xl font-bold text-gray-800 mb-12 text-center fade-in">About Me</h2>
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div class="fade-in">
+            <div class="skill-card rounded-3xl p-8 card-3d">
+              <p class="text-lg text-gray-700 leading-relaxed mb-6" id="about-text">
+                I am a passionate full-stack developer with expertise in building scalable web applications and integrating cutting-edge AI solutions. With a strong foundation in modern technologies and a creative approach to problem-solving, I strive to deliver exceptional digital experiences.
+              </p>
+              <p class="text-lg text-gray-700 leading-relaxed">
+                My journey in technology is driven by curiosity and a commitment to continuous learning. I specialize in creating innovative solutions that bridge the gap between complex technical challenges and user-friendly interfaces.
+              </p>
+            </div>
+          </div>
+          <div class="fade-in">
+            <div class="skill-card rounded-3xl p-8 card-3d">
+              <h3 class="text-2xl font-semibold text-gray-800 mb-4">Quick Facts</h3>
+              <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-2xl mr-3">🎯</span>
+                  <span>Focused on delivering high-quality, scalable solutions</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-2xl mr-3">💡</span>
+                  <span>Passionate about AI and emerging technologies</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-2xl mr-3">🚀</span>
+                  <span>Always exploring new tools and frameworks</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-2xl mr-3">🤝</span>
+                  <span>Strong believer in collaborative development</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="py-20 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-5xl font-bold text-gray-800 mb-12 text-center fade-in">Skills & Technologies</h2>
+        <div class="grid md:grid-cols-3 gap-8" id="skills-container">
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="py-20 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-5xl font-bold text-gray-800 mb-12 text-center fade-in">Experience & Leadership</h2>
+        <div class="space-y-8" id="experience-container">
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="py-20 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-5xl font-bold text-gray-800 mb-12 text-center fade-in">Featured Projects</h2>
+        <div class="grid md:grid-cols-2 gap-8" id="projects-container">
+        </div>
+      </div>
+    </section>
+
+    <section id="achievements" class="py-20 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-5xl font-bold text-gray-800 mb-12 text-center fade-in">Achievements</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="achievements-container">
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-20 px-6">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-5xl font-bold text-gray-800 mb-12 text-center fade-in">Get In Touch</h2>
+        <div class="skill-card rounded-3xl p-12 card-3d fade-in">
+          <p class="text-lg text-gray-700 text-center mb-8">
+            Interested in working together or have a question? Feel free to reach out!
+          </p>
+          <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <a href="mailto:sujalkumar3456@gmail.com" class="btn-primary px-8 py-4 rounded-full text-gray-800 font-semibold text-lg">
+              Send Email
+            </a>
+            <div class="flex gap-6" id="social-links">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="py-8 px-6 border-t border-white/50">
+      <div class="max-w-6xl mx-auto text-center">
+        <p class="text-gray-700">&copy; 2024 Sujal Kumar. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <div class="chat-widget">
+      <div class="chat-window" id="chat-window">
+        <div class="chat-header">
+          <div>
+            <div class="font-semibold">AI Assistant</div>
+            <div class="text-xs opacity-75">Ask me anything about Sujal</div>
+          </div>
+          <button id="close-chat" class="text-2xl leading-none">&times;</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="message bot">
+            Hi! I'm Sujal's AI assistant. Feel free to ask me anything about his experience, skills, projects, or achievements. How can I help you today?
+          </div>
+        </div>
+        <div class="chat-input-container">
+          <form id="chat-form">
+            <input
+              type="text"
+              id="chat-input"
+              class="chat-input"
+              placeholder="Type your message..."
+              autocomplete="off"
+            />
+          </form>
+        </div>
+      </div>
+      <button class="chat-button" id="chat-button">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-800">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
